@@ -1,0 +1,493 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <!-- *** The normal plugin stuff *** -->
+   <extension
+         point="org.eclipse.ui.views">
+      <category
+            name="CSI Analysis"
+            id="CSI">
+      </category>
+      <view
+            name="CSI Analysis Data"
+            icon="icons/blue_circle_small.png"
+            category="CSI"
+            class="csi.views.StackBrowserView"
+            id="csi.views.StackBrowserView">
+      </view>
+   </extension>
+   <extension
+         id="org.eclipse."
+         point="org.eclipse.ui.perspectiveExtensions">
+      <perspectiveExtension
+            targetID="org.eclipse.jdt.ui.JavaPerspective">
+         <view
+               id="csi.views.StackBrowserView"
+               ratio="0.7"
+               relative="org.eclipse.ui.editorss"
+               relationship="right"
+               visible="false">
+         </view>
+      </perspectiveExtension>
+      <perspectiveExtension
+            targetID="org.eclipse.cdt.ui.CPerspective">
+         <view
+               id="csi.views.StackBrowserView"
+               ratio="0.7"
+               relative="org.eclipse.ui.editorss"
+               relationship="right"
+               visible="false">
+         </view>
+      </perspectiveExtension>
+   </extension>
+   <extension
+         point="org.eclipse.help.contexts">
+      <contexts
+            file="contexts.xml">
+      </contexts>
+      <contexts
+            file="contexts.xml">
+      </contexts>
+   </extension>
+   
+   <!-- *** handlers for key bindings *** -->
+   <extension point="org.eclipse.ui.commands">
+      <command
+            name="Next trace entry"
+            description="Move forward to the next trace entry"
+            categoryId="org.eclipse.ui.category.file"
+            id="csi.trace.next" />
+      <command
+            name="Previous trace entry"
+            description="Move backward to the previous trace entry"
+            categoryId="org.eclipse.ui.category.file"
+            id="csi.trace.prev" />
+   </extension>
+   <extension point="org.eclipse.ui.bindings">
+      <key sequence="Ctrl+Alt+Shift+PAGE_DOWN"
+           commandId="csi.trace.next"
+           schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"/>
+      <key sequence="Ctrl+Alt+Shift+PAGE_UP"
+           commandId="csi.trace.prev"
+           schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"/>
+   </extension>
+   
+   
+   
+   
+   <!-- *** Local coverage annotations *** -->
+   <!-- Yes annotation -->
+   <extension
+         id="csi.yesMarker"
+         name="ExeYes Marker"
+         point="org.eclipse.core.resources.markers">
+         <super type="org.eclipse.core.resources.textmarker"/>
+         <persistent value="false"/>
+   </extension>
+   <extension
+   		 id="csi.yesAnnotation"
+   		 name="ExeYes Marker Annotation"
+         point="org.eclipse.ui.editors.annotationTypes">
+      <type
+            markerType="csi.yesMarker"
+            name="csi.yesAnnotation">
+      </type>
+   </extension>
+	<extension
+         point="org.eclipse.ui.editors.markerAnnotationSpecification"
+         id="csi.yesAnnotationSpec">
+      <specification
+            annotationType="csi.yesAnnotation"
+            includeOnPreferencePage="true"
+            overviewRulerPreferenceKey="clruler"
+            label="Local Yes"
+			overviewRulerPreferenceValue="true"
+			highlightPreferenceKey="highlight.background"
+			highlightPreferenceValue="true"
+			colorPreferenceKey="clcolor"
+			colorPreferenceValue="205,255,205"
+			textPreferenceKey="cltext"
+			textPreferenceValue="true"
+			presentationLayer="5"
+			verticalRulerPreferenceKey="clvertical"
+			verticalRulerPreferenceValue="true"
+			textStylePreferenceKey="clstyle"
+			textStylePreferenceValue="BOX">
+      </specification>
+   </extension>
+   
+   <!-- No annotation -->
+   <extension
+         id="csi.noMarker"
+         name="ExeNo Marker"
+         point="org.eclipse.core.resources.markers">
+         <super type="org.eclipse.core.resources.textmarker"/>
+         <persistent value="false"/>
+   </extension>
+   <extension
+   		 id="csi.noAnnotation"
+   		 name="ExeNo Marker Annotation"
+         point="org.eclipse.ui.editors.annotationTypes">
+      <type
+            markerType="csi.noMarker"
+            name="csi.noAnnotation">
+      </type>
+   </extension>
+	<extension
+         point="org.eclipse.ui.editors.markerAnnotationSpecification"
+         id="csi.noAnnotationSpec">
+      <specification
+            annotationType="csi.noAnnotation"
+            includeOnPreferencePage="true"
+            overviewRulerPreferenceKey="clruler"
+            label="Local No"
+			overviewRulerPreferenceValue="true"
+			highlightPreferenceKey="highlight.background"
+			highlightPreferenceValue="true"
+			colorPreferenceKey="no.clcolor"
+			colorPreferenceValue="255,205,205"
+			textPreferenceKey="no.cltext"
+			textPreferenceValue="true"
+			presentationLayer="4"
+			verticalRulerPreferenceKey="no.clvertical"
+			verticalRulerPreferenceValue="true"
+			textStylePreferenceKey="no.clstyle"
+			textStylePreferenceValue="BOX">
+      </specification>
+   </extension>
+   
+   <!-- Maybe annotation -->
+   <extension
+         id="csi.maybeMarker"
+         name="ExeMaybe Marker"
+         point="org.eclipse.core.resources.markers">
+         <super type="org.eclipse.core.resources.textmarker"/>
+         <persistent value="false"/>
+   </extension>
+   <extension
+   		 id="csi.maybeAnnotation"
+   		 name="ExeMaybe Marker Annotation"
+         point="org.eclipse.ui.editors.annotationTypes">
+      <type
+            markerType="csi.maybeMarker"
+            name="csi.maybeAnnotation">
+      </type>
+   </extension>
+	<extension
+         point="org.eclipse.ui.editors.markerAnnotationSpecification"
+         id="csi.maybeAnnotationSpec">
+      <specification
+            annotationType="csi.maybeAnnotation"
+            includeOnPreferencePage="true"
+            overviewRulerPreferenceKey="clruler"
+            label="Local Maybe"
+			overviewRulerPreferenceValue="true"
+			highlightPreferenceKey="highlight.background"
+			highlightPreferenceValue="true"
+			colorPreferenceKey="maybe.clcolor"
+			colorPreferenceValue="255,255,141"
+			textPreferenceKey="maybe.cltext"
+			textPreferenceValue="true"
+			presentationLayer="4"
+			verticalRulerPreferenceKey="maybe.clvertical"
+			verticalRulerPreferenceValue="true"
+			textStylePreferenceKey="maybe.clstyle"
+			textStylePreferenceValue="BOX">
+      </specification>
+   </extension>
+   
+   <!-- Other annotation -->
+   <extension
+         id="csi.otherMarker"
+         name="Mixed Exe Marker"
+         point="org.eclipse.core.resources.markers">
+         <super type="org.eclipse.core.resources.textmarker"/>
+         <persistent value="false"/>
+   </extension>
+   <extension
+   		 id="csi.otherAnnotation"
+   		 name="Complex Exe Marker Annotation"
+         point="org.eclipse.ui.editors.annotationTypes">
+      <type
+            markerType="csi.otherMarker"
+            name="csi.otherAnnotation">
+      </type>
+   </extension>
+	<extension
+         point="org.eclipse.ui.editors.markerAnnotationSpecification"
+         id="csi.otherAnnotationSpec">
+      <specification
+            annotationType="csi.otherAnnotation"
+            includeOnPreferencePage="true"
+            overviewRulerPreferenceKey="clruler"
+            label="Local Complex"
+			overviewRulerPreferenceValue="true"
+			highlightPreferenceKey="highlight.background"
+			highlightPreferenceValue="true"
+			colorPreferenceKey="other.clcolor"
+			colorPreferenceValue="169,149,135"
+			textPreferenceKey="other.cltext"
+			textPreferenceValue="true"
+			presentationLayer="4"
+			verticalRulerPreferenceKey="other.clvertical"
+			verticalRulerPreferenceValue="true"
+			textStylePreferenceKey="other.clstyle"
+			textStylePreferenceValue="BOX">
+      </specification>
+   </extension>
+   
+   
+   
+   
+   <!-- *** Global coverage annotations *** -->
+   <!-- Yes annotation -->
+   <extension
+         id="csi.global.yesMarker"
+         name="Global ExeYes Marker"
+         point="org.eclipse.core.resources.markers">
+         <super type="org.eclipse.core.resources.textmarker"/>
+         <persistent value="false"/>
+   </extension>
+   <extension
+   		 id="csi.global.yesAnnotation"
+   		 name="Global ExeYes Marker Annotation"
+         point="org.eclipse.ui.editors.annotationTypes">
+      <type
+            markerType="csi.global.yesMarker"
+            name="csi.global.yesAnnotation">
+      </type>
+   </extension>
+	<extension
+         point="org.eclipse.ui.editors.markerAnnotationSpecification"
+         id="csi.global.yesAnnotationSpec">
+      <specification
+            annotationType="csi.global.yesAnnotation"
+            includeOnPreferencePage="true"
+            overviewRulerPreferenceKey="clruler"
+            label="Global Yes"
+            icon="icons/green_circle_extra_small.png"
+            overviewRulerPreferenceValue="true"
+			highlightPreferenceKey="globalyes.highlight.background"
+			highlightPreferenceValue="false"
+			colorPreferenceKey="globalyes.clcolor"
+			colorPreferenceValue="100,255,100"
+			textPreferenceKey="globalyes.cltext"
+			textPreferenceValue="true"
+			presentationLayer="3"
+			verticalRulerPreferenceKey="globalyes.clvertical"
+			verticalRulerPreferenceValue="true"
+			textStylePreferenceKey="globalyes.clstyle"
+			textStylePreferenceValue="NONE">
+      </specification>
+   </extension>
+      
+   <!-- No annotation -->
+   <extension
+         id="csi.global.noMarker"
+         name="Global ExeNo Marker"
+         point="org.eclipse.core.resources.markers">
+         <super type="org.eclipse.core.resources.textmarker"/>
+         <persistent value="false"/>
+   </extension>
+   <extension
+   		 id="csi.global.noAnnotation"
+   		 name="Global ExeNo Marker Annotation"
+         point="org.eclipse.ui.editors.annotationTypes">
+      <type
+            markerType="csi.global.noMarker"
+            name="csi.global.noAnnotation">
+      </type>
+   </extension>
+	<extension
+         point="org.eclipse.ui.editors.markerAnnotationSpecification"
+         id="csi.global.noAnnotationSpec">
+      <specification
+            annotationType="csi.global.noAnnotation"
+            includeOnPreferencePage="true"
+            overviewRulerPreferenceKey="clruler"
+            label="Global No"
+            icon="icons/red_square_extra_small.png"
+            overviewRulerPreferenceValue="true"
+			highlightPreferenceKey="globalno.highlight.background"
+			highlightPreferenceValue="false"
+			colorPreferenceKey="globalno.clcolor"
+			colorPreferenceValue="255,100,100"
+			textPreferenceKey="globalno.cltext"
+			textPreferenceValue="true"
+			presentationLayer="1"
+			verticalRulerPreferenceKey="globalno.clvertical"
+			verticalRulerPreferenceValue="true"
+			textStylePreferenceKey="globalno.clstyle"
+			textStylePreferenceValue="NONE">
+      </specification>
+   </extension>
+   
+   <!-- Maybe annotation -->
+   <extension
+         id="csi.global.maybeMarker"
+         name="Global ExeMaybe Marker"
+         point="org.eclipse.core.resources.markers">
+         <super type="org.eclipse.core.resources.textmarker"/>
+         <persistent value="false"/>
+   </extension>
+   <extension
+   		 id="csi.global.maybeAnnotation"
+   		 name="Global ExeMaybe Marker Annotation"
+         point="org.eclipse.ui.editors.annotationTypes">
+      <type
+            markerType="csi.global.maybeMarker"
+            name="csi.global.maybeAnnotation">
+      </type>
+   </extension>
+	<extension
+         point="org.eclipse.ui.editors.markerAnnotationSpecification"
+         id="csi.global.maybeAnnotationSpec">
+      <specification
+            annotationType="csi.global.maybeAnnotation"
+            includeOnPreferencePage="true"
+            overviewRulerPreferenceKey="clruler"
+            label="Global Maybe"
+            icon="icons/yellow_diamond_extra_small.png"
+            overviewRulerPreferenceValue="true"
+			highlightPreferenceKey="globalmaybe.highlight.background"
+			highlightPreferenceValue="false"
+			colorPreferenceKey="globalmaybe.clcolor"
+			colorPreferenceValue="255,255,100"
+			textPreferenceKey="globalmaybe.cltext"
+			textPreferenceValue="true"
+			presentationLayer="2"
+			verticalRulerPreferenceKey="globalmaybe.clvertical"
+			verticalRulerPreferenceValue="true"
+			textStylePreferenceKey="globalmaybe.clstyle"
+			textStylePreferenceValue="NONE">
+      </specification>
+   </extension>
+   
+   <!-- Other annotation -->
+   <extension
+         id="csi.global.otherMarker"
+         name="Global Complex Exe Marker"
+         point="org.eclipse.core.resources.markers">
+         <super type="org.eclipse.core.resources.textmarker"/>
+         <persistent value="false"/>
+   </extension>
+   <extension
+   		 id="csi.global.otherAnnotation"
+   		 name="Global Complex Exe Marker Annotation"
+         point="org.eclipse.ui.editors.annotationTypes">
+      <type
+            markerType="csi.global.otherMarker"
+            name="csi.global.otherAnnotation">
+      </type>
+   </extension>
+	<extension
+         point="org.eclipse.ui.editors.markerAnnotationSpecification"
+         id="csi.global.otherAnnotationSpec">
+      <specification
+            annotationType="csi.global.otherAnnotation"
+            includeOnPreferencePage="true"
+            overviewRulerPreferenceKey="clruler"
+            label="Global Complex Exe"
+            icon="icons/orange_circle_extra_small.png"
+            overviewRulerPreferenceValue="true"
+			highlightPreferenceKey="globalother.highlight.background"
+			highlightPreferenceValue="false"
+			colorPreferenceKey="globalother.clcolor"
+			colorPreferenceValue="169,149,135"
+			textPreferenceKey="globalother.cltext"
+			textPreferenceValue="true"
+			presentationLayer="2"
+			verticalRulerPreferenceKey="globalother.clvertical"
+			verticalRulerPreferenceValue="true"
+			textStylePreferenceKey="globalother.clstyle"
+			textStylePreferenceValue="NONE">
+      </specification>
+   </extension>
+   
+   
+   
+   
+   <!-- *** Path entry annotations *** -->
+   <!-- Current annotation -->
+   <extension
+         id="csi.path.currentMarker"
+         name="Local Path Current Marker"
+         point="org.eclipse.core.resources.markers">
+         <super type="org.eclipse.core.resources.textmarker"/>
+         <persistent value="false"/>
+   </extension>
+   <extension
+   		 id="csi.path.currentAnnotation"
+   		 name="Local Path Current Annotation"
+         point="org.eclipse.ui.editors.annotationTypes">
+      <type
+            markerType="csi.path.currentMarker"
+            name="csi.path.currentAnnotation">
+      </type>
+   </extension>
+	<extension
+         point="org.eclipse.ui.editors.markerAnnotationSpecification"
+         id="csi.path.currentAnnotationSpec">
+      <specification
+            annotationType="csi.path.currentAnnotation"
+            includeOnPreferencePage="true"
+            overviewRulerPreferenceKey="clruler"
+            label="Current Path Entry"
+            icon="icons/arrow_current.png"
+            overviewRulerPreferenceValue="true"
+			highlightPreferenceKey="pathcurrent.highlight.background"
+			highlightPreferenceValue="true"
+			colorPreferenceKey="pathcurrent.clcolor"
+			colorPreferenceValue="63,255,63"
+			textPreferenceKey="pathcurrent.cltext"
+			textPreferenceValue="true"
+			presentationLayer="100"
+			verticalRulerPreferenceKey="pathcurrent.clvertical"
+			verticalRulerPreferenceValue="true"
+			textStylePreferenceKey="pathcurrent.clstyle"
+			textStylePreferenceValue="NONE">
+      </specification>
+   </extension>
+   
+   <!-- Next annotation -->
+   <extension
+         id="csi.path.nextMarker"
+         name="Local Path Adjacent Marker"
+         point="org.eclipse.core.resources.markers">
+         <super type="org.eclipse.core.resources.textmarker"/>
+         <persistent value="false"/>
+   </extension>
+   <extension
+   		 id="csi.path.nextAnnotation"
+   		 name="Local Path Adjacent Annotation"
+         point="org.eclipse.ui.editors.annotationTypes">
+      <type
+            markerType="csi.path.nextMarker"
+            name="csi.path.nextAnnotation">
+      </type>
+   </extension>
+	<extension
+         point="org.eclipse.ui.editors.markerAnnotationSpecification"
+         id="csi.path.nextAnnotationSpec">
+      <specification
+            annotationType="csi.path.nextAnnotation"
+            includeOnPreferencePage="true"
+            overviewRulerPreferenceKey="clruler"
+            label="Adjacent Path Entry"
+            icon="icons/arrow_next.png"
+            overviewRulerPreferenceValue="true"
+			highlightPreferenceKey="pathnext.highlight.background"
+			highlightPreferenceValue="false"
+			colorPreferenceKey="pathnext.clcolor"
+			colorPreferenceValue="169,149,135"
+			textPreferenceKey="pathnext.cltext"
+			textPreferenceValue="true"
+			presentationLayer="100"
+			verticalRulerPreferenceKey="pathnext.clvertical"
+			verticalRulerPreferenceValue="true"
+			textStylePreferenceKey="pathnext.clstyle"
+			textStylePreferenceValue="NONE">
+      </specification>
+   </extension>
+
+</plugin>

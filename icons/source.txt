@@ -1,0 +1,5 @@
+Blue circle icon from: http://www.icons-land.com/
+Local icon from: https://www.iconfinder.com/hooktraffic
+
+stack_frame.gif and import_co.gif from: Eclipse project.  Licensed under EPL.
+Obtained from http://eclipse-icons.i24.cc/eclipse-icons-02.html
